@@ -11,7 +11,7 @@
 #import "DataModelExtensions.h"
 
 #define kFontSize 13.0 // fontsize
-#define kTextViewWidth 480 // from storyboard
+#define kTextViewWidth 430 // from storyboard
 #define kDateTimeFormat @"yyyy-MM-dd HH:mm"
 
 @interface AddTaskTableViewController () <UITextViewDelegate, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate> {

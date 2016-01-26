@@ -217,18 +217,18 @@
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Subject" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c54-8U-YeJ">
                                                     <rect key="frame" x="30" y="13" width="46" height="16"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="13"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" red="0.058823529411764705" green="0.13725490196078433" blue="0.29411764705882354" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your task subject here" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cRr-Pu-YMd">
-                                                    <rect key="frame" x="95" y="7" width="480" height="30"/>
+                                                    <rect key="frame" x="145" y="7" width="430" height="30"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailingMargin" secondItem="cRr-Pu-YMd" secondAttribute="trailing" constant="17" id="71c-ox-RMY"/>
-                                                <constraint firstItem="cRr-Pu-YMd" firstAttribute="leading" secondItem="xAO-RN-pEA" secondAttribute="leadingMargin" constant="87" id="Fa3-Yg-VjM"/>
+                                                <constraint firstItem="cRr-Pu-YMd" firstAttribute="leading" secondItem="xAO-RN-pEA" secondAttribute="leadingMargin" constant="137" id="Fa3-Yg-VjM"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="cRr-Pu-YMd" secondAttribute="bottom" constant="-1" id="XtJ-8K-1Iy"/>
                                                 <constraint firstItem="cRr-Pu-YMd" firstAttribute="top" secondItem="xAO-RN-pEA" secondAttribute="topMargin" constant="-1" id="v40-o2-eun"/>
                                             </constraints>
@@ -248,11 +248,11 @@
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Details" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E2A-uO-kG1">
                                                     <rect key="frame" x="30" y="13" width="42" height="16"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="13"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" red="0.050980392156862744" green="0.12549019607843137" blue="0.26666666666666666" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" text="New task" translatesAutoresizingMaskIntoConstraints="NO" id="YXZ-Pt-jFb">
-                                                    <rect key="frame" x="95" y="5" width="480" height="33"/>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" text="New task" translatesAutoresizingMaskIntoConstraints="NO" id="YXZ-Pt-jFb">
+                                                    <rect key="frame" x="142" y="5" width="433" height="33"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -261,12 +261,14 @@
                                                     </connections>
                                                 </textView>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="YXZ-Pt-jFb" secondAttribute="bottom" constant="6" id="1VF-7S-kiu"/>
+                                                <constraint firstItem="YXZ-Pt-jFb" firstAttribute="leading" secondItem="E2A-uO-kG1" secondAttribute="trailing" constant="70" id="NHf-hH-d3q"/>
+                                                <constraint firstItem="YXZ-Pt-jFb" firstAttribute="top" secondItem="SjW-ze-bEo" secondAttribute="top" constant="5" id="aSq-fg-eXO"/>
+                                                <constraint firstAttribute="trailing" secondItem="YXZ-Pt-jFb" secondAttribute="trailing" constant="25" id="fyo-0j-tfw"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <constraints>
-                                            <constraint firstItem="YXZ-Pt-jFb" firstAttribute="top" secondItem="TIl-ai-VNE" secondAttribute="top" constant="5" id="IsD-AJ-6yu"/>
-                                            <constraint firstAttribute="trailing" secondItem="YXZ-Pt-jFb" secondAttribute="trailing" constant="25" id="KQI-tQ-hKw"/>
-                                            <constraint firstAttribute="bottom" secondItem="YXZ-Pt-jFb" secondAttribute="bottom" constant="6" id="KgU-9V-KBO"/>
-                                            <constraint firstItem="YXZ-Pt-jFb" firstAttribute="leading" secondItem="TIl-ai-VNE" secondAttribute="leading" constant="95" id="mz6-Zf-kYy"/>
                                             <constraint firstItem="E2A-uO-kG1" firstAttribute="leading" secondItem="TIl-ai-VNE" secondAttribute="leading" constant="30" id="pk5-40-Hvb"/>
                                             <constraint firstItem="E2A-uO-kG1" firstAttribute="top" secondItem="TIl-ai-VNE" secondAttribute="top" constant="13" id="u3e-3h-Rcc"/>
                                         </constraints>
@@ -278,21 +280,21 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mWO-5S-wZ4">
-                                                    <rect key="frame" x="30" y="13" width="29" height="16"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Scheduled" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mWO-5S-wZ4">
+                                                    <rect key="frame" x="30" y="13" width="65" height="16"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="13"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" red="0.054901960784313725" green="0.13333333333333333" blue="0.28235294117647058" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QPl-4Q-kOA">
-                                                    <rect key="frame" x="95" y="7" width="480" height="30"/>
+                                                    <rect key="frame" x="145" y="7" width="430" height="30"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="bottomMargin" secondItem="QPl-4Q-kOA" secondAttribute="bottom" constant="-1" id="FPD-gz-Bsi"/>
-                                                <constraint firstItem="QPl-4Q-kOA" firstAttribute="leading" secondItem="MXK-35-KWJ" secondAttribute="leadingMargin" constant="87" id="Jip-7b-ZaB"/>
+                                                <constraint firstItem="QPl-4Q-kOA" firstAttribute="leading" secondItem="MXK-35-KWJ" secondAttribute="leadingMargin" constant="137" id="Jip-7b-ZaB"/>
                                                 <constraint firstItem="QPl-4Q-kOA" firstAttribute="top" secondItem="MXK-35-KWJ" secondAttribute="topMargin" constant="-1" id="aEZ-hT-hwA"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="QPl-4Q-kOA" secondAttribute="trailing" constant="17" id="kW1-eK-11O"/>
                                             </constraints>
@@ -312,18 +314,18 @@
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Priority" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d7y-6V-k8g">
                                                     <rect key="frame" x="30" y="13" width="43" height="16"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="13"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" red="0.054901960784313725" green="0.13333333333333333" blue="0.27843137254901962" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your task priority here" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BeJ-R8-b83">
-                                                    <rect key="frame" x="95" y="7" width="480" height="30"/>
+                                                    <rect key="frame" x="145" y="7" width="430" height="30"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="BeJ-R8-b83" firstAttribute="top" secondItem="a04-Jp-OpN" secondAttribute="topMargin" constant="-1" id="Z5z-FP-Yab"/>
-                                                <constraint firstItem="BeJ-R8-b83" firstAttribute="leading" secondItem="a04-Jp-OpN" secondAttribute="leadingMargin" constant="87" id="hJL-vg-r4U"/>
+                                                <constraint firstItem="BeJ-R8-b83" firstAttribute="leading" secondItem="a04-Jp-OpN" secondAttribute="leadingMargin" constant="137" id="hJL-vg-r4U"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="BeJ-R8-b83" secondAttribute="bottom" constant="-1" id="uHN-xB-1Z3"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="BeJ-R8-b83" secondAttribute="trailing" constant="17" id="vF6-gM-4Uj"/>
                                             </constraints>
@@ -343,11 +345,11 @@
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Category" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E4B-Wy-8Zz">
                                                     <rect key="frame" x="30" y="13" width="55" height="16"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="13"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" red="0.054901960784313725" green="0.13333333333333333" blue="0.27843137254901962" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your category name or list name here" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IYf-bw-Y1A">
-                                                    <rect key="frame" x="95" y="7" width="480" height="30"/>
+                                                    <rect key="frame" x="145" y="7" width="430" height="30"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
@@ -356,7 +358,7 @@
                                                 <constraint firstAttribute="trailingMargin" secondItem="IYf-bw-Y1A" secondAttribute="trailing" constant="17" id="0DV-5r-5UY"/>
                                                 <constraint firstItem="IYf-bw-Y1A" firstAttribute="top" secondItem="Rbs-1I-1fb" secondAttribute="topMargin" constant="-1" id="4sZ-Ks-EXn"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="IYf-bw-Y1A" secondAttribute="bottom" constant="-1" id="grd-gh-zfj"/>
-                                                <constraint firstItem="IYf-bw-Y1A" firstAttribute="leading" secondItem="Rbs-1I-1fb" secondAttribute="leadingMargin" constant="87" id="jpr-0Q-gX1"/>
+                                                <constraint firstItem="IYf-bw-Y1A" firstAttribute="leading" secondItem="Rbs-1I-1fb" secondAttribute="leadingMargin" constant="137" id="jpr-0Q-gX1"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <constraints>
