@@ -8,9 +8,10 @@
 
 #import "AddTaskTableViewController.h"
 #import "DateConverter.h"
+#import "DataModelExtensions.h"
 
-#define kFontSize 15.0 // fontsize
-#define kTextViewWidth 486
+#define kFontSize 13.0 // fontsize
+#define kTextViewWidth 480 // from storyboard
 #define kDateTimeFormat @"yyyy-MM-dd HH:mm"
 
 @interface AddTaskTableViewController () <UITextViewDelegate, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate> {
@@ -27,10 +28,12 @@
 @property (weak, nonatomic) IBOutlet UITextField *dateTextField;
 @property (weak, nonatomic) IBOutlet UITextField *priorityTextField;
 @property (weak, nonatomic) IBOutlet UITextField *categoryTextField;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *btnSave;
+@property (weak, nonatomic) IBOutlet UIButton *btnSave;
 @property (copy, nonatomic) NSString *dateSelectedInDatePicker;
-@property (copy, nonatomic) NSString *prioritySelectedInPicker;
+@property (assign, nonatomic) NSInteger prioritySelectedInPicker;
 @property (strong, nonatomic) NSArray *priorities;
+@property (weak, nonatomic) IBOutlet UILabel *markAsCompleteLabel;
+@property (weak, nonatomic) IBOutlet UISwitch *markAsCompleteSwitch;
 @end
 
 @implementation AddTaskTableViewController
@@ -51,18 +54,7 @@
         [self.subjectTextField becomeFirstResponder];
         self.navigationItem.rightBarButtonItem.tintColor = [UIColor greenColor];
     }
-        
-    //Size task description to something that is form fitting to the string in the model.
-    self.textViewContent = @"";
-    float height = [self textViewheight:self.textView withString:self.textViewContent];
-    CGRect textViewRect = CGRectMake(74, 4, kTextViewWidth, height);
-    self.textView.frame = textViewRect;
-    
-    // to get proper contentSize dimensions
-    self.textView.contentSize =
-        CGSizeMake(kTextViewWidth, [self textViewheight:self.textView withString:@""]);
-    
-    self.textView.text = self.textViewContent;
+
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
                                            initWithTarget:self
                                            action:@selector(dismissKeyboard)];
@@ -86,27 +78,41 @@
     // picker view
     [self createPicker];
     self.priorityTextField.inputView = picker;
-    self.prioritySelectedInPicker = @"Default";
-    self.priorityTextField.text = self.prioritySelectedInPicker;
+    self.prioritySelectedInPicker = 3; // setting default priority to normal
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    self.editing  = self.taskItem ? NO : YES;
+    self.editing  = (_displayMode == EditMode) ? YES : NO;
     
     if (self.taskItem) {
         self.subjectTextField.text = [self.taskItem valueForKey:@"taskSubject"];
         self.textViewContent = [self.taskItem valueForKey:@"taskDetail"];
         self.textView.text = self.textViewContent;
-        NSString *dateInString = [DateConverter stringFromDate:[self.taskItem valueForKey:@"createdDate"] withFormat:kDateTimeFormat];
+        NSString *dateInString =
+            [DateConverter stringFromDate:[self.taskItem valueForKey:@"createdDate"] withFormat:kDateTimeFormat];
         self.dateTextField.text = dateInString;
-        self.priorityTextField.text = [self.taskItem valueForKey:@"priority"];
+        self.priorityTextField.text = priorityIntToString([[self.taskItem valueForKey:@"priority"] intValue]);
         self.categoryTextField.text = [self.taskItem valueForKey:@"categoryName"];
     }
     else {
+        self.navigationItem.title = @"New Task";
         self.btnSave.enabled = NO;
+        //Size task description to something that is form fitting to the string in the model.
+        self.textViewContent = @"";
     }
+
+    // height of text view is calculated
+    float height = [self textViewheight:self.textView withString:self.textViewContent];
+    CGRect textViewRect = CGRectMake(74, 4, kTextViewWidth, height);
+    self.textView.frame = textViewRect;
+    
+    // to get proper contentSize dimensions
+    self.textView.contentSize =
+        CGSizeMake(kTextViewWidth, [self textViewheight:self.textView withString:self.textViewContent]);
+    
+    self.textView.text = self.textViewContent;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -120,10 +126,10 @@
 }
 
 - (CGFloat)textViewheight:(UITextView*)textView withString:(NSString*)string {
-    float horizontalPadding = 24.0f;
+    float horizontalPadding = 20.0f;
     float verticalPadding = 16.0f;
     float widthOfTextView = textView.contentSize.width - horizontalPadding;
-    UIFont *font = [UIFont systemFontOfSize:kFontSize];
+    UIFont *font = [UIFont fontWithName:@"HelveticaNeue-Light" size:kFontSize];
     NSAttributedString *attributedText =
         [[NSAttributedString alloc] initWithString:string
                                         attributes:@{NSFontAttributeName: font}];
@@ -138,11 +144,20 @@
 - (void)setEditing:(BOOL)editing {
     [super setEditing:editing];
     
+    self.subjectTextField.enabled = editing;
     self.textView.userInteractionEnabled = editing;
     self.dateTextField.enabled  = editing;
     self.priorityTextField.enabled = editing;
     self.categoryTextField.enabled = editing;
-    self.navigationController.toolbarHidden = editing? 1 : 0;
+    //hide save action
+    self.btnSave.hidden = !editing;
+    if (_displayMode == EditMode) {
+        self.navigationController.toolbarHidden = false;
+        self.btnSave.hidden = false;
+    }
+    //hide complete switch
+    self.markAsCompleteLabel.hidden = !editing;
+    self.markAsCompleteSwitch.hidden = !editing;
 }
 
 
@@ -226,16 +241,11 @@
 #pragma mark - UIPickerViewDelegate
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    self.prioritySelectedInPicker = [self.priorities objectAtIndex:row];
-    self.priorityTextField.text = self.prioritySelectedInPicker;
+    self.prioritySelectedInPicker = row;
+    self.priorityTextField.text = priorityIntToString(self.prioritySelectedInPicker);
 }
 
 #pragma mark - Action methods
-
-- (IBAction)cancel:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 
 - (IBAction)saveTask:(id)sender {
     NSString *subject =
@@ -256,7 +266,7 @@
                                 @"taskDetail" : description,
                                 @"createdDate" : [DateConverter dateFromString:self.dateSelectedInDatePicker withFormat:kDateTimeFormat],
                                 @"categoryName" : self.categoryTextField.text,
-                                @"priority" : self.prioritySelectedInPicker
+                                @"priority" : [NSNumber numberWithInteger:self.prioritySelectedInPicker]
                                 };
         self.updateCallBack(task, uniqueTaskID);
     }
@@ -268,7 +278,7 @@
                                 @"taskDetail" : description,
                                 @"createdDate" : [DateConverter dateFromString:self.dateSelectedInDatePicker withFormat:kDateTimeFormat],
                                 @"categoryName" : self.categoryTextField.text,
-                                @"priority" : self.prioritySelectedInPicker
+                                @"priority" : [NSNumber numberWithInteger:self.prioritySelectedInPicker]
                                 };
         self.insertCallBack(task);
         [self.navigationController popViewControllerAnimated:YES];
@@ -279,7 +289,7 @@
 - (IBAction)deleteTask:(id)sender {
     NSString *taskIdString = [self.taskItem valueForKey:@"taskID"];
     self.removeCallBack(taskIdString);
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 

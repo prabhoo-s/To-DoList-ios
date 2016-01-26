@@ -8,10 +8,15 @@
 
 #import "TaskItemTableViewCell.h"
 #import "DateConverter.h"
+#import "DataModelExtensions.h"
 
 #define kDateTimeFormat @"yyyy-MM-dd HH:mm"
 
 #pragma mark - Implementation
+
+@interface TaskItemTableViewCell()
+- (UIImage *)getPriorityImage:(TaskPriority)priority;
+@end
 
 @implementation TaskItemTableViewCell
 
@@ -48,39 +53,29 @@
                            withFormat:kDateTimeFormat];
     self.createdDate.text = dateInString;
     self.categoryName.text = [self.task valueForKey:@"categoryName"];
-    [self setImageView:[self.task valueForKey:@"priority"]];
+    TaskPriority tPriority = priorityIntToEnum([[self.task valueForKey:@"priority"] intValue]);
+    [self.priorityIndicator setImage:[self getPriorityImage:tPriority]];
 }
 
-- (void)setImageView:(NSString *)priority {
-    if ([priority isEqualToString:@"High"]) {
-        [self.priorityIndicator setImage:[UIImage imageNamed: @"priority_red"]];
-    }
-    else if ([priority isEqualToString:@"Medium"]) {
-        [self.priorityIndicator setImage:[UIImage imageNamed: @"priority_yellow"]];
-    }
-    else if ([priority isEqualToString:@"Low"]) {
-        [self.priorityIndicator setImage:[UIImage imageNamed: @"priority_green"]];
-    }
-    else {
-        [self.priorityIndicator setImage:[UIImage imageNamed: @"priority_default"]];
-    }
-}
-
-- (void)setPriorityImage:(TaskPriority)priority {
+- (UIImage *)getPriorityImage:(TaskPriority)priority {
+    UIImage *returnImage = [UIImage imageNamed: @"priority_default"];
+    
     switch (priority) {
       case High:
-        [self.priorityIndicator setImage:[UIImage imageNamed: @"priority_red"]];
+        returnImage = [UIImage imageNamed: @"priority_red"];
         break;
       case Medium:
-        [self.priorityIndicator setImage:[UIImage imageNamed: @"priority_yellow"]];
+        returnImage = [UIImage imageNamed: @"priority_yellow"];
         break;
       case Low:
-        [self.priorityIndicator setImage:[UIImage imageNamed: @"priority_green"]];
+        returnImage = [UIImage imageNamed: @"priority_green"];
         break;
       default:
-        [self.priorityIndicator setImage:[UIImage imageNamed: @"priority_default"]];
+        returnImage = [UIImage imageNamed: @"priority_default"];
         break;
     }
+    
+    return returnImage;
 }
 
 @end

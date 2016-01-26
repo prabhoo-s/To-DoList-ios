@@ -15,17 +15,17 @@
         taskDetail:(NSString *)taskDetail
          createdDate:(NSDate *)createdDate
         reminderDate:(NSDate *)reminderDate
-        priority:(NSString *)priority
+        priority:(NSInteger)priority
         categoryName:(NSString *)categoryName {
 
     if (self = [super init]) {
         _taskID = [taskID copy];
-        _taskDetail = [taskSubject copy];
+        _taskSubject = [taskSubject copy];
         _taskDetail = [taskDetail copy];
         _createdDate = createdDate;
         _reminderDate = reminderDate;
         _taskDetail = [taskDetail copy];
-        _priority = [priority copy];
+        _priority = priority;
         _categoryName = [categoryName copy];
     }
  

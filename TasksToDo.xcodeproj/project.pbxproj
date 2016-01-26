@@ -23,6 +23,7 @@
 		715343711C5512CA0091610C /* DateConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 715343701C5512CA0091610C /* DateConverter.m */; };
 		719631261C5600BA008BDC72 /* TaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 719631251C5600BA008BDC72 /* TaskDetailViewController.m */; };
 		7196312C1C56120A008BDC72 /* backSeague.m in Sources */ = {isa = PBXBuildFile; fileRef = 7196312B1C56120A008BDC72 /* backSeague.m */; };
+		71E88BEE1C578965004F6733 /* DataModelExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 71E88BED1C578965004F6733 /* DataModelExtensions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +76,8 @@
 		719631251C5600BA008BDC72 /* TaskDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskDetailViewController.m; path = TasksToDo/TaskDetailViewController.m; sourceTree = "<group>"; };
 		7196312A1C56120A008BDC72 /* backSeague.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = backSeague.h; path = TasksToDo/backSeague.h; sourceTree = "<group>"; };
 		7196312B1C56120A008BDC72 /* backSeague.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = backSeague.m; path = TasksToDo/backSeague.m; sourceTree = "<group>"; };
+		71E88BEC1C578965004F6733 /* DataModelExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DataModelExtensions.h; path = TasksToDo/DataModelExtensions.h; sourceTree = "<group>"; };
+		71E88BED1C578965004F6733 /* DataModelExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DataModelExtensions.m; path = TasksToDo/DataModelExtensions.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,6 +188,8 @@
 		71FDB8011C53C846000846A0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				71E88BEC1C578965004F6733 /* DataModelExtensions.h */,
+				71E88BED1C578965004F6733 /* DataModelExtensions.m */,
 				713B32CC1C528D120017E3A5 /* Task.h */,
 				713B32CD1C528D120017E3A5 /* Task.m */,
 			);
@@ -345,6 +350,7 @@
 				713B32D31C528FD40017E3A5 /* PlistManager.m in Sources */,
 				719631261C5600BA008BDC72 /* TaskDetailViewController.m in Sources */,
 				713B32921C526F320017E3A5 /* main.m in Sources */,
+				71E88BEE1C578965004F6733 /* DataModelExtensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -416,7 +422,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Mohan Annepu (33Q5C3342X)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Mohan Annepu (33Q5C3342X)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -435,9 +442,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "2a1f33d8-9192-4732-ac1e-128e2a12c148";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -460,7 +468,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Mohan Annepu (33Q5C3342X)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Mohan Annepu (33Q5C3342X)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -473,8 +482,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "2a1f33d8-9192-4732-ac1e-128e2a12c148";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

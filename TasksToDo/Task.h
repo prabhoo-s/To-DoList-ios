@@ -15,7 +15,7 @@
 @property (nonatomic, copy) NSString *taskDetail;
 @property (nonatomic, retain) NSDate *createdDate;
 @property (nonatomic, retain) NSDate *reminderDate;
-@property (nonatomic, copy) NSString *priority;
+@property (nonatomic, assign) NSInteger priority;
 @property (nonatomic, copy) NSString *categoryName;
 
 - (id)initWithTaskID:(NSString *)taskID
@@ -23,6 +23,6 @@
         taskDetail:(NSString *)taskDetail
          createdDate:(NSDate *)createdDate
         reminderDate:(NSDate *)reminderDate
-        priority:(NSString *)priority
+        priority:(NSInteger)priority
         categoryName:(NSString *)categoryName;
 @end

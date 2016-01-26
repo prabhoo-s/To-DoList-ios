@@ -9,13 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "Task.h"
 
-typedef NS_ENUM(NSInteger, TaskPriority) {
-    High,
-    Medium,
-    Low,
-    Normal,
-};
-
 #pragma mark - interface
 
 @interface TaskItemTableViewCell : UITableViewCell

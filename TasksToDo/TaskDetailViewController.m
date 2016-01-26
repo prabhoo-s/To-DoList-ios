@@ -9,10 +9,12 @@
 #import "TaskDetailViewController.h"
 #import "AddTaskTableViewController.h"
 #import "Task.h"
+#import "PlistManager.h"
 
 @interface TaskDetailViewController ()<UIPageViewControllerDataSource>
 
 @property (nonatomic, strong) UIPageViewController *pageViewController;
+@property (nonatomic, assign) NSUInteger currentTaskIndex;
 
 @end
 
@@ -23,6 +25,7 @@
     [self createPageViewController];
 //    NSLog(@"selecteTaskIndex:%lu", (unsigned long)_selecteTaskIndex);
 //    NSLog(@"selecteTaskIndex:%@", _taskItems);
+    self.currentTaskIndex = self.selecteTaskIndex;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -79,12 +82,52 @@
         pageItemController.itemIndex = itemIndex;
         
         NSDictionary *dict = [self.taskItems objectAtIndex:itemIndex];
-        Task *myTask = [[Task alloc] initWithTaskID:dict[@"taskID"] taskSubject:dict[@"taskSubject"] taskDetail:dict[@"taskDetail"] createdDate:dict[@"createdDate"] reminderDate:dict[@"reminderDate"] priority:dict[@"priority"] categoryName:dict[@"categoryName"]];
+        Task *myTask = [[Task alloc] initWithTaskID:dict[@"taskID"]
+                                        taskSubject:dict[@"taskSubject"]
+                                         taskDetail:dict[@"taskDetail"]
+                                        createdDate:dict[@"createdDate"]
+                                       reminderDate:dict[@"reminderDate"]
+                                           priority:[[dict valueForKey:@"priority"] intValue]
+                                       categoryName:dict[@"categoryName"]];
         pageItemController.taskItem = myTask;
+        pageItemController.displayMode = ViewMode;
+        self.currentTaskIndex = itemIndex - 1; // For Edit task flow
         return pageItemController;
     }
     
     return nil;
+}
+
+#pragma mark - Navigation
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"SEGUE_PUSH_EDIT_TASK"]) {
+        AddTaskTableViewController *vc = (AddTaskTableViewController *)[segue destinationViewController];
+        NSDictionary *dict = [self.taskItems objectAtIndex:self.currentTaskIndex];
+        Task *myTask = [[Task alloc] initWithTaskID:dict[@"taskID"]
+                                        taskSubject:dict[@"taskSubject"]
+                                         taskDetail:dict[@"taskDetail"]
+                                        createdDate:dict[@"createdDate"]
+                                       reminderDate:dict[@"reminderDate"]
+                                           priority:[[dict valueForKey:@"priority"] intValue]
+                                       categoryName:dict[@"categoryName"]];
+        vc.taskItem = myTask;
+        vc.displayMode = EditMode;
+        [vc deleteTaskCallBack:^(NSString *taskString) {
+            [PlistManager deleteTaskWithId:taskString];
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            [self dismissViewControllerAnimated:YES completion:^{
+                [self.delegate refreshTableView];
+            }];
+        }];
+        [vc updateTaskCallBack:^(NSDictionary *task, NSString *taskString) {
+            [PlistManager deleteTaskWithId:taskString];
+            [PlistManager addToMyPlist:task];
+            [self dismissViewControllerAnimated:YES completion:^{
+                [self.delegate refreshTableView];
+            }];
+        }];
+    }
 }
 
 @end

@@ -16,11 +16,20 @@
 
 #define kDateFormat @"dd MM yyyy"
 
-@interface TaskListTableViewController ()
+#pragma mark - Private Interface
+
+@interface TaskListTableViewController () <ReloadTableViewOnTaskDeletion>
+
+#pragma mark - Private Properties
+
 @property (strong, nonatomic) OrderedDictionary *dateWiseTaskList;
 @end
 
+#pragma mark - Implementation
+
 @implementation TaskListTableViewController
+
+#pragma mark - UIViewController overrides
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -126,6 +135,7 @@
         NSIndexPath *path = [self.tableView indexPathForSelectedRow];
         tdViewController.selecteTaskIndex = path.row;
         tdViewController.taskItems = [PlistManager getAllTasks];
+        tdViewController.delegate = self;
     }
     else if ([segue.identifier isEqualToString:@"SEGUE_PUSH_ADD_TASK"]) {
         AddTaskTableViewController *vc = (AddTaskTableViewController *)[segue destinationViewController];
@@ -169,6 +179,10 @@
     }];
     
     [self.tableView reloadData];
+}
+
+- (void)refreshTableView {
+    [self prepareDaySeparatedList];
 }
 
 @end
