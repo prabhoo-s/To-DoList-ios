@@ -641,7 +641,7 @@
         <!--Page View Controller-->
         <scene sceneID="9TD-bW-7it">
             <objects>
-                <pageViewController storyboardIdentifier="ID_PAGE_VC" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="ntm-z4-EaY" sceneMemberID="viewController"/>
+                <pageViewController storyboardIdentifier="ID_PAGE_VC" autoresizesArchivedViewToFullSize="NO" hidesBottomBarWhenPushed="YES" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="ntm-z4-EaY" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="55q-5p-Bcl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-5015" y="-1106"/>

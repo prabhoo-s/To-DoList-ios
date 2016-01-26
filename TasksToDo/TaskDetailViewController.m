@@ -11,7 +11,7 @@
 #import "Task.h"
 #import "PlistManager.h"
 
-@interface TaskDetailViewController ()<UIPageViewControllerDataSource>
+@interface TaskDetailViewController () <UIPageViewControllerDataSource, UIPageViewControllerDelegate>
 
 @property (nonatomic, strong) UIPageViewController *pageViewController;
 @property (nonatomic, assign) NSUInteger currentTaskIndex;
@@ -36,6 +36,7 @@
     UIPageViewController *pageController =
         [self.storyboard instantiateViewControllerWithIdentifier:@"ID_PAGE_VC"];
     pageController.dataSource = self;
+    pageController.delegate = self;
     
     if ([self.taskItems count]) {
         NSArray *startingViewControllers = @[[self itemControllerForIndex: self.selecteTaskIndex]];
@@ -59,7 +60,7 @@
     if (itemController.itemIndex > 0) {
         return [self itemControllerForIndex: itemController.itemIndex - 1];
     }
-    
+
     return nil;
 }
 
@@ -69,8 +70,15 @@
     if (itemController.itemIndex + 1 < [self.taskItems count]) {
         return [self itemControllerForIndex: itemController.itemIndex + 1];
     }
-    
+
     return nil;
+}
+
+- (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed {
+    if (completed) {
+        self.currentTaskIndex =
+            ((UIViewController *)self.pageViewController.viewControllers.firstObject).view.tag;
+    }
 }
 
 #pragma mark - Private methods
@@ -91,7 +99,8 @@
                                        categoryName:dict[@"categoryName"]];
         pageItemController.taskItem = myTask;
         pageItemController.displayMode = ViewMode;
-        self.currentTaskIndex = itemIndex - 1; // For Edit task flow
+        pageItemController.view.tag = itemIndex;
+
         return pageItemController;
     }
     
