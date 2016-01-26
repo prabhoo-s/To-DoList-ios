@@ -12,6 +12,7 @@
 typedef enum : NSUInteger {
     EditMode = 0,
     ViewMode,
+    CreateMode,
 } ViewControllerDisplayMode;
 
 typedef void (^newTaskCallBack)(NSDictionary *task);

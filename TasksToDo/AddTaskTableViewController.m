@@ -34,6 +34,7 @@
 @property (strong, nonatomic) NSArray *priorities;
 @property (weak, nonatomic) IBOutlet UILabel *markAsCompleteLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *markAsCompleteSwitch;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *textViewHeightConstraint;
 @end
 
 @implementation AddTaskTableViewController
@@ -60,6 +61,8 @@
                                            action:@selector(dismissKeyboard)];
 
     [self.view addGestureRecognizer:tap];
+    
+    self.textView.delegate = self;
     self.dateTextField.delegate = self;
     self.categoryTextField.delegate = self;
     self.priorityTextField.delegate = self;
@@ -84,7 +87,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    self.editing  = (_displayMode == EditMode) ? YES : NO;
+    self.editing  = (_displayMode != ViewMode);
     
     if (self.taskItem) {
         self.subjectTextField.text = [self.taskItem valueForKey:@"taskSubject"];
@@ -136,6 +139,7 @@
     CGRect rect = [attributedText boundingRectWithSize:(CGSize){widthOfTextView, CGFLOAT_MAX}
                                                options:NSStringDrawingUsesLineFragmentOrigin
                                                context:nil];
+    self.textViewHeightConstraint.constant = rect.size.height + verticalPadding;
     return rect.size.height + verticalPadding;
 }
 
@@ -151,9 +155,12 @@
     self.categoryTextField.enabled = editing;
     //hide save action
     self.btnSave.hidden = !editing;
-    if (_displayMode == EditMode) {
+    if (_displayMode == EditMode && editing) {
         self.navigationController.toolbarHidden = false;
         self.btnSave.hidden = false;
+    }
+    else {
+        self.navigationController.toolbarHidden = true;
     }
     //hide complete switch
     self.markAsCompleteLabel.hidden = !editing;

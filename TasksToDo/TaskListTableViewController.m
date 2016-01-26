@@ -140,6 +140,7 @@
     else if ([segue.identifier isEqualToString:@"SEGUE_PUSH_ADD_TASK"]) {
         AddTaskTableViewController *vc = (AddTaskTableViewController *)[segue destinationViewController];
         __weak TaskListTableViewController  *weakself = self;
+        vc.displayMode = CreateMode;
         [vc newTaskCallBack:^(NSDictionary *task) {
             [PlistManager addToMyPlist:task];
             [weakself prepareDaySeparatedList];
