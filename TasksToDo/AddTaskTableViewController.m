@@ -75,8 +75,6 @@
     datePicker.datePickerMode = UIDatePickerModeDateAndTime;
     [datePicker addTarget:self action:@selector(datePickerValueChanged:) forControlEvents:UIControlEventValueChanged];
     self.dateTextField.inputView = datePicker;
-    self.dateSelectedInDatePicker = [DateConverter stringFromDate:[NSDate date] withFormat:kDateTimeFormat];
-    self.dateTextField.text = self.dateSelectedInDatePicker;
     
     // picker view
     [self createPicker];
@@ -93,10 +91,11 @@
         self.subjectTextField.text = [self.taskItem valueForKey:@"taskSubject"];
         self.textViewContent = [self.taskItem valueForKey:@"taskDetail"];
         self.textView.text = self.textViewContent;
-        NSString *dateInString =
+        self.dateSelectedInDatePicker =
             [DateConverter stringFromDate:[self.taskItem valueForKey:@"createdDate"] withFormat:kDateTimeFormat];
-        self.dateTextField.text = dateInString;
-        self.priorityTextField.text = priorityIntToString([[self.taskItem valueForKey:@"priority"] intValue]);
+        self.dateTextField.text = self.dateSelectedInDatePicker;
+        self.prioritySelectedInPicker = [[self.taskItem valueForKey:@"priority"] intValue];
+        self.priorityTextField.text = priorityIntToString(self.prioritySelectedInPicker);
         self.categoryTextField.text = [self.taskItem valueForKey:@"categoryName"];
     }
     else {
@@ -104,6 +103,8 @@
         self.btnSave.enabled = NO;
         //Size task description to something that is form fitting to the string in the model.
         self.textViewContent = @"";
+        self.dateSelectedInDatePicker = [DateConverter stringFromDate:[NSDate date] withFormat:kDateTimeFormat];
+        self.dateTextField.text = self.dateSelectedInDatePicker;
     }
 
     // height of text view is calculated
@@ -361,7 +362,7 @@
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     [df setDateFormat:kDateTimeFormat];
 
-    self.dateTextField.text = [df stringFromDate:date];
+    self.dateTextField.text = self.dateSelectedInDatePicker = [df stringFromDate:date];
 }
 
 - (void)createPicker {
