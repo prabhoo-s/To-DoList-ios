@@ -96,6 +96,7 @@
                                         createdDate:dict[@"createdDate"]
                                        reminderDate:dict[@"reminderDate"]
                                            priority:[[dict valueForKey:@"priority"] intValue]
+                                           status:[[dict valueForKey:@"status"] intValue]
                                        categoryName:dict[@"categoryName"]];
         pageItemController.taskItem = myTask;
         pageItemController.displayMode = ViewMode;
@@ -119,6 +120,7 @@
                                         createdDate:dict[@"createdDate"]
                                        reminderDate:dict[@"reminderDate"]
                                            priority:[[dict valueForKey:@"priority"] intValue]
+                                           status:[[dict valueForKey:@"status"] intValue]
                                        categoryName:dict[@"categoryName"]];
         vc.taskItem = myTask;
         vc.displayMode = EditMode;

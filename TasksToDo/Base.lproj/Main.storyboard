@@ -98,6 +98,14 @@
                                             <color key="textColor" red="0.062745098039215685" green="0.15294117647058825" blue="0.32549019607843138" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="complete" translatesAutoresizingMaskIntoConstraints="NO" id="E1H-MI-W5G">
+                                            <rect key="frame" x="547" y="33" width="30" height="30"/>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="30" id="yA1-Kf-jWr"/>
+                                                <constraint firstAttribute="height" constant="30" id="ySW-cK-mor"/>
+                                            </constraints>
+                                        </imageView>
                                     </subviews>
                                     <animations/>
                                     <constraints>
@@ -107,9 +115,11 @@
                                         <constraint firstItem="p07-cm-BFQ" firstAttribute="top" secondItem="oRR-OV-ItY" secondAttribute="bottom" constant="1" id="LoJ-ej-tNI"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="oRR-OV-ItY" secondAttribute="trailing" constant="77" id="MmN-eF-GbH"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="p07-cm-BFQ" secondAttribute="trailing" constant="40" id="P2j-o3-SXG"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="E1H-MI-W5G" secondAttribute="bottom" constant="14" id="PS7-uP-1Ji"/>
                                         <constraint firstItem="hLh-OR-aNH" firstAttribute="top" secondItem="4hM-gK-C26" secondAttribute="topMargin" id="Pcv-H5-LtP"/>
                                         <constraint firstItem="Cbx-0w-KJk" firstAttribute="leading" secondItem="4hM-gK-C26" secondAttribute="leading" id="Pnc-XN-99g"/>
                                         <constraint firstAttribute="bottom" secondItem="Cbx-0w-KJk" secondAttribute="bottom" id="YlN-vw-yad"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="E1H-MI-W5G" secondAttribute="trailing" constant="15" id="ZPn-L1-syQ"/>
                                         <constraint firstItem="fWE-ro-KNk" firstAttribute="top" secondItem="4hM-gK-C26" secondAttribute="topMargin" constant="-8" id="etI-JY-Lkq"/>
                                         <constraint firstItem="hLh-OR-aNH" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Qty-D2-S6Z" secondAttribute="trailing" constant="20" id="h1k-Fi-Lzc"/>
                                         <constraint firstItem="Qty-D2-S6Z" firstAttribute="leading" secondItem="4hM-gK-C26" secondAttribute="leadingMargin" constant="7" id="jqj-cf-bV1"/>
@@ -125,6 +135,7 @@
                                     <outlet property="createdDate" destination="Qty-D2-S6Z" id="42E-Fu-pdo"/>
                                     <outlet property="priorityIndicator" destination="fWE-ro-KNk" id="0C1-Ue-yEM"/>
                                     <outlet property="taskDescription" destination="p07-cm-BFQ" id="Gmn-gT-ue4"/>
+                                    <outlet property="taskStatusImageView" destination="E1H-MI-W5G" id="dZT-sr-bcy"/>
                                     <outlet property="taskSubject" destination="oRR-OV-ItY" id="KQV-yB-iZX"/>
                                     <segue destination="yQ1-Ec-3db" kind="presentation" identifier="SEGUE_PUSH_VIEW_TASK" id="ed4-G2-fHJ"/>
                                 </connections>
@@ -183,6 +194,9 @@
                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="QuY-CT-jEV">
                                     <rect key="frame" x="396" y="6" width="51" height="31"/>
                                     <animations/>
+                                    <connections>
+                                        <action selector="touchOnSwitch:" destination="P8z-fJ-zkx" eventType="valueChanged" id="YXy-Pg-Fcz"/>
+                                    </connections>
                                 </switch>
                             </subviews>
                             <animations/>
@@ -718,12 +732,13 @@
         </scene>
     </scenes>
     <resources>
+        <image name="complete" width="30" height="30"/>
         <image name="priority_default" width="50" height="63"/>
         <image name="task_save_button_active" width="107" height="47"/>
         <image name="task_save_button_normal" width="107" height="47"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="q4u-JF-bD8"/>
+        <segue reference="roW-Eh-nYX"/>
         <segue reference="KEX-CD-7x2"/>
     </inferredMetricsTieBreakers>
 </document>

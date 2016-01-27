@@ -17,10 +17,16 @@ typedef NS_ENUM(NSInteger, TaskPriority) {
     Normal,
 };
 
+typedef NS_ENUM(NSInteger, TaskStatus) {
+    Active,
+    Completed,
+};
+
 @interface Task(ModelExtensions)
 
 TaskPriority priorityIntToEnum(NSInteger priority);
 NSInteger priorityEnumToInt(TaskPriority priority);
 NSString * priorityIntToString(NSInteger priority);
+TaskStatus statusIntToEnum(NSInteger status);
 
 @end

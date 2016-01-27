@@ -10,12 +10,13 @@
 #import "DateConverter.h"
 #import "DataModelExtensions.h"
 
-#define kDateTimeFormat @"yyyy-MM-dd HH:mm"
+#define kDateTimeFormat @"MMM dd yyyy hh:mm a"
 
 #pragma mark - Implementation
 
 @interface TaskItemTableViewCell()
 - (UIImage *)getPriorityImage:(TaskPriority)priority;
+- (UIImage *)getStatusImage:(TaskStatus)status;
 @end
 
 @implementation TaskItemTableViewCell
@@ -49,12 +50,14 @@
     self.taskSubject.text = [self.task valueForKey:@"taskSubject"];
     self.taskDescription.text = [self.task valueForKey:@"taskDetail"];
     NSString *dateInString =
-        [DateConverter stringFromDate:[self.task valueForKey:@"createdDate"]
+        [DateConverter stringFromDate:[self.task valueForKey:@"reminderDate"]
                            withFormat:kDateTimeFormat];
     self.createdDate.text = dateInString;
     self.categoryName.text = [self.task valueForKey:@"categoryName"];
     TaskPriority tPriority = priorityIntToEnum([[self.task valueForKey:@"priority"] intValue]);
     [self.priorityIndicator setImage:[self getPriorityImage:tPriority]];
+    TaskStatus status = statusIntToEnum([[self.task valueForKey:@"status"] intValue]);
+    [self.taskStatusImageView setImage:[self getStatusImage:status]];
 }
 
 - (UIImage *)getPriorityImage:(TaskPriority)priority {
@@ -72,6 +75,23 @@
         break;
       default:
         returnImage = [UIImage imageNamed: @"priority_default"];
+        break;
+    }
+    
+    return returnImage;
+}
+
+- (UIImage *)getStatusImage:(TaskStatus)status {
+    UIImage *returnImage = [UIImage new];
+    switch (status) {
+      case Active:
+        returnImage = returnImage;
+        break;
+      case Completed:
+        returnImage = [UIImage imageNamed: @"complete"];
+        break;
+      default:
+        returnImage = returnImage;
         break;
     }
     

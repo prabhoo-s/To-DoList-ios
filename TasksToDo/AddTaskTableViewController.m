@@ -31,6 +31,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnSave;
 @property (copy, nonatomic) NSString *dateSelectedInDatePicker;
 @property (assign, nonatomic) NSInteger prioritySelectedInPicker;
+@property (assign, nonatomic) NSInteger completed;
 @property (strong, nonatomic) NSArray *priorities;
 @property (weak, nonatomic) IBOutlet UILabel *markAsCompleteLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *markAsCompleteSwitch;
@@ -64,8 +65,10 @@
     
     self.textView.delegate = self;
     self.dateTextField.delegate = self;
+    self.dateTextField.tag = 121212;
     self.categoryTextField.delegate = self;
     self.priorityTextField.delegate = self;
+    self.priorityTextField.tag = 131313;
     
     [self setupDatepickerToolbar];
     self.dateTextField.inputAccessoryView = keyboardToolbar;
@@ -80,6 +83,8 @@
     [self createPicker];
     self.priorityTextField.inputView = picker;
     self.prioritySelectedInPicker = 3; // setting default priority to normal
+    self.completed = 0;
+    self.markAsCompleteSwitch.userInteractionEnabled = false;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -95,12 +100,19 @@
             [DateConverter stringFromDate:[self.taskItem valueForKey:@"createdDate"] withFormat:kDateTimeFormat];
         self.dateTextField.text = self.dateSelectedInDatePicker;
         self.prioritySelectedInPicker = [[self.taskItem valueForKey:@"priority"] intValue];
+        self.completed = [[self.taskItem valueForKey:@"status"] intValue];
         self.priorityTextField.text = priorityIntToString(self.prioritySelectedInPicker);
         self.categoryTextField.text = [self.taskItem valueForKey:@"categoryName"];
+        BOOL switchState = [[self.taskItem valueForKey:@"status"] boolValue];
+        if (switchState) {
+            [self.markAsCompleteSwitch setOn:switchState];
+        }
     }
     else {
         self.navigationItem.title = @"New Task";
         self.btnSave.enabled = NO;
+        self.markAsCompleteLabel.hidden = true;
+        self.markAsCompleteSwitch.hidden = true;
         //Size task description to something that is form fitting to the string in the model.
         self.textViewContent = @"";
         self.dateSelectedInDatePicker = [DateConverter stringFromDate:[NSDate date] withFormat:kDateTimeFormat];
@@ -163,9 +175,11 @@
     else {
         self.navigationController.toolbarHidden = true;
     }
-    //hide complete switch
-    self.markAsCompleteLabel.hidden = !editing;
-    self.markAsCompleteSwitch.hidden = !editing;
+    if (_displayMode == EditMode) {
+        //hide complete switch
+        self.markAsCompleteLabel.hidden = false;
+        self.markAsCompleteSwitch.userInteractionEnabled = true;
+    }
 }
 
 
@@ -224,6 +238,16 @@
     return YES;
 }
 
+#pragma mark - UITextFieldDelegate
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    BOOL returnValue = true;
+    if (textField.tag == 121212 || textField.tag == 131313) {
+        returnValue = false;
+    }
+    return returnValue;
+}
+
 #pragma mark - UIPickerViewDataSource
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
@@ -272,9 +296,11 @@
         NSDictionary *task =  @{@"taskID" : uniqueTaskID,
                                 @"taskSubject" : subject,
                                 @"taskDetail" : description,
-                                @"createdDate" : [DateConverter dateFromString:self.dateSelectedInDatePicker withFormat:kDateTimeFormat],
+                                @"createdDate" : [self.taskItem valueForKey:@"createdDate"],
+                                @"reminderDate" : [DateConverter dateFromString:self.dateSelectedInDatePicker withFormat:kDateTimeFormat],
                                 @"categoryName" : self.categoryTextField.text,
-                                @"priority" : [NSNumber numberWithInteger:self.prioritySelectedInPicker]
+                                @"priority" : [NSNumber numberWithInteger:self.prioritySelectedInPicker],
+                                @"status" : [NSNumber numberWithInteger:self.completed]
                                 };
         self.updateCallBack(task, uniqueTaskID);
     }
@@ -284,9 +310,11 @@
         NSDictionary *task =  @{@"taskID" : [NSString stringWithFormat:@"%d", r],
                                 @"taskSubject" : subject,
                                 @"taskDetail" : description,
-                                @"createdDate" : [DateConverter dateFromString:self.dateSelectedInDatePicker withFormat:kDateTimeFormat],
+                                @"createdDate" : [NSDate date],
+                                @"reminderDate" : [DateConverter dateFromString:self.dateSelectedInDatePicker withFormat:kDateTimeFormat],
                                 @"categoryName" : self.categoryTextField.text,
-                                @"priority" : [NSNumber numberWithInteger:self.prioritySelectedInPicker]
+                                @"priority" : [NSNumber numberWithInteger:self.prioritySelectedInPicker],
+                                @"status" : [NSNumber numberWithInteger:self.completed]
                                 };
         self.insertCallBack(task);
         [self.navigationController popViewControllerAnimated:YES];
@@ -301,12 +329,9 @@
 }
 
 
-- (IBAction)editTask:(id)sender {
-    self.editing = YES;
-    self.btnSave.enabled = YES;
-    [self.subjectTextField becomeFirstResponder];
+- (IBAction)touchOnSwitch:(id)sender {
+    self.completed = [sender isOn];
 }
-
 
 #pragma mark - Callback Method
 

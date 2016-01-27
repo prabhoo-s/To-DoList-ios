@@ -11,11 +11,12 @@
 @implementation Task
 
 - (id)initWithTaskID:(NSString *)taskID
-        taskSubject:(NSString *)taskSubject
-        taskDetail:(NSString *)taskDetail
+         taskSubject:(NSString *)taskSubject
+          taskDetail:(NSString *)taskDetail
          createdDate:(NSDate *)createdDate
         reminderDate:(NSDate *)reminderDate
-        priority:(NSInteger)priority
+            priority:(NSInteger)priority
+              status:(NSInteger)status
         categoryName:(NSString *)categoryName {
 
     if (self = [super init]) {
@@ -26,6 +27,7 @@
         _reminderDate = reminderDate;
         _taskDetail = [taskDetail copy];
         _priority = priority;
+        _status = status;
         _categoryName = [categoryName copy];
     }
  

@@ -21,5 +21,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *createdDate;
 @property (weak, nonatomic) IBOutlet UILabel *categoryName;
 @property (weak, nonatomic) IBOutlet UIImageView *priorityIndicator;
+@property (weak, nonatomic) IBOutlet UIImageView *taskStatusImageView;
 
 @end

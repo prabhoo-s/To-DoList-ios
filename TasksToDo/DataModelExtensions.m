@@ -74,4 +74,21 @@ NSString * priorityIntToString(NSInteger priority) {
     return returnValue;
 }
 
+TaskStatus statusIntToEnum(NSInteger status) {
+    TaskStatus retutnStatus = Active;
+    switch (status) {
+      case 0:
+        retutnStatus = Active;
+        break;
+      case 1:
+        retutnStatus = Completed;
+        break;
+      default:
+        retutnStatus = Active;
+        break;
+    }
+
+    return retutnStatus;
+}
+
 @end
