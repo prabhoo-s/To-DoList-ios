@@ -14,28 +14,27 @@
 #define kTextViewWidth 430 // from storyboard
 #define kDateTimeFormat @"yyyy-MM-dd HH:mm"
 
-@interface AddTaskTableViewController () <UITextViewDelegate, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate> {
+@interface AddTaskTableViewController () <UITextViewDelegate, UITextFieldDelegate> {
     UIDatePicker *datePicker;
     NSDate *date;
     UIToolbar *keyboardToolbar;
     UIPickerView *picker;
 }
-@property (nonatomic, strong)newTaskCallBack insertCallBack;
-@property (nonatomic, strong)deleteTaskCallBack removeCallBack;
-@property (nonatomic, strong)updateTaskCallBack updateCallBack;
+@property (nonatomic, copy)newTaskCallBack insertCallBack;
+@property (nonatomic, copy)deleteTaskCallBack removeCallBack;
+@property (nonatomic, copy)updateTaskCallBack updateCallBack;
 @property (weak, nonatomic) IBOutlet UITextField *subjectTextField;
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 @property (weak, nonatomic) IBOutlet UITextField *dateTextField;
-@property (weak, nonatomic) IBOutlet UITextField *priorityTextField;
 @property (weak, nonatomic) IBOutlet UITextField *categoryTextField;
 @property (weak, nonatomic) IBOutlet UIButton *btnSave;
 @property (copy, nonatomic) NSString *dateSelectedInDatePicker;
-@property (assign, nonatomic) NSInteger prioritySelectedInPicker;
 @property (assign, nonatomic) NSInteger completed;
 @property (strong, nonatomic) NSArray *priorities;
 @property (weak, nonatomic) IBOutlet UILabel *markAsCompleteLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *markAsCompleteSwitch;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *textViewHeightConstraint;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @end
 
 @implementation AddTaskTableViewController
@@ -67,8 +66,6 @@
     self.dateTextField.delegate = self;
     self.dateTextField.tag = 121212;
     self.categoryTextField.delegate = self;
-    self.priorityTextField.delegate = self;
-    self.priorityTextField.tag = 131313;
     
     [self setupDatepickerToolbar];
     self.dateTextField.inputAccessoryView = keyboardToolbar;
@@ -79,10 +76,6 @@
     [datePicker addTarget:self action:@selector(datePickerValueChanged:) forControlEvents:UIControlEventValueChanged];
     self.dateTextField.inputView = datePicker;
     
-    // picker view
-    [self createPicker];
-    self.priorityTextField.inputView = picker;
-    self.prioritySelectedInPicker = 3; // setting default priority to normal
     self.completed = 0;
     self.markAsCompleteSwitch.userInteractionEnabled = false;
 }
@@ -99,9 +92,8 @@
         self.dateSelectedInDatePicker =
             [DateConverter stringFromDate:[self.taskItem valueForKey:@"createdDate"] withFormat:kDateTimeFormat];
         self.dateTextField.text = self.dateSelectedInDatePicker;
-        self.prioritySelectedInPicker = [[self.taskItem valueForKey:@"priority"] intValue];
+        self.segmentedControl.selectedSegmentIndex = [[self.taskItem valueForKey:@"priority"] intValue];
         self.completed = [[self.taskItem valueForKey:@"status"] intValue];
-        self.priorityTextField.text = priorityIntToString(self.prioritySelectedInPicker);
         self.categoryTextField.text = [self.taskItem valueForKey:@"categoryName"];
         BOOL switchState = [[self.taskItem valueForKey:@"status"] boolValue];
         if (switchState) {
@@ -164,7 +156,7 @@
     self.subjectTextField.enabled = editing;
     self.textView.userInteractionEnabled = editing;
     self.dateTextField.enabled  = editing;
-    self.priorityTextField.enabled = editing;
+    self.segmentedControl.enabled = editing;
     self.categoryTextField.enabled = editing;
     //hide save action
     self.btnSave.hidden = !editing;
@@ -248,34 +240,34 @@
     return returnValue;
 }
 
-#pragma mark - UIPickerViewDataSource
-
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    NSString *returnStr = @"";
-
-    if (pickerView == picker) {
-        if (component == 0) {
-            returnStr = [self.priorities objectAtIndex:row];
-        }
-    }
-
-    return returnStr;
-}
-
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    return [self.priorities count];
-}
-
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-    return 1;
-}
-
-#pragma mark - UIPickerViewDelegate
-
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    self.prioritySelectedInPicker = row;
-    self.priorityTextField.text = priorityIntToString(self.prioritySelectedInPicker);
-}
+//#pragma mark - UIPickerViewDataSource
+//
+//- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+//    NSString *returnStr = @"";
+//
+//    if (pickerView == picker) {
+//        if (component == 0) {
+//            returnStr = [self.priorities objectAtIndex:row];
+//        }
+//    }
+//
+//    return returnStr;
+//}
+//
+//- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+//    return [self.priorities count];
+//}
+//
+//- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+//    return 1;
+//}
+//
+//#pragma mark - UIPickerViewDelegate
+//
+//- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+//    self.prioritySelectedInPicker = row;
+//    self.priorityTextField.text = priorityIntToString(self.prioritySelectedInPicker);
+//}
 
 #pragma mark - Action methods
 
@@ -299,7 +291,7 @@
                                 @"createdDate" : [self.taskItem valueForKey:@"createdDate"],
                                 @"reminderDate" : [DateConverter dateFromString:self.dateSelectedInDatePicker withFormat:kDateTimeFormat],
                                 @"categoryName" : self.categoryTextField.text,
-                                @"priority" : [NSNumber numberWithInteger:self.prioritySelectedInPicker],
+                                @"priority" : [NSNumber numberWithInteger:self.segmentedControl.selectedSegmentIndex],
                                 @"status" : [NSNumber numberWithInteger:self.completed]
                                 };
         self.updateCallBack(task, uniqueTaskID);
@@ -313,7 +305,7 @@
                                 @"createdDate" : [NSDate date],
                                 @"reminderDate" : [DateConverter dateFromString:self.dateSelectedInDatePicker withFormat:kDateTimeFormat],
                                 @"categoryName" : self.categoryTextField.text,
-                                @"priority" : [NSNumber numberWithInteger:self.prioritySelectedInPicker],
+                                @"priority" : [NSNumber numberWithInteger:self.segmentedControl.selectedSegmentIndex],
                                 @"status" : [NSNumber numberWithInteger:self.completed]
                                 };
         self.insertCallBack(task);
@@ -388,16 +380,6 @@
     [df setDateFormat:kDateTimeFormat];
 
     self.dateTextField.text = self.dateSelectedInDatePicker = [df stringFromDate:date];
-}
-
-- (void)createPicker {
-    self.priorities = @[@"High", @"Medium", @"Low"];
-    if (picker == nil) {
-        picker = [[UIPickerView alloc] initWithFrame:CGRectZero];
-        picker.showsSelectionIndicator = YES; // default is NO
-        picker.delegate = self;
-        picker.dataSource = self;
-    }
 }
 
 @end

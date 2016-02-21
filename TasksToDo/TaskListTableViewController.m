@@ -35,6 +35,7 @@
     [super viewDidLoad];
     
     [self prepareDaySeparatedList];
+    self.tableView.allowsMultipleSelectionDuringEditing = NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -61,7 +62,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-         return 20;
+    return 20;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -111,7 +112,6 @@
     return lblSectionHeader;
 }
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellIdentifier = @"tasks.list.cell";
     TaskItemTableViewCell *cell =
@@ -122,6 +122,21 @@
     cell.task = [sortedTasks objectAtIndex:indexPath.row];
     
     return cell;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return true;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        // Delete the row from the data source
+        NSArray *sortedTasks = [self.dateWiseTaskList objectForKey:[self.dateWiseTaskList keyAtIndex:indexPath.section]];
+        NSDictionary *task = [sortedTasks objectAtIndex:indexPath.row];
+        [PlistManager deleteTaskWithId:[task valueForKey:@"taskID"]];
+        [self prepareDaySeparatedList];
+        [self.tableView reloadData];
+    }
 }
 
 #pragma mark - Navigation
